@@ -1,4 +1,4 @@
-package api
+package pdf_actions
 
 import (
 	"fmt"
@@ -50,7 +50,7 @@ func savePDF(c *gin.Context) (string, error) {
 func rotatePDF(inputPath string, outputPath string, rotationAngle int) error {
 	conf := model.NewDefaultConfiguration()
 
-	selectedPages := []string{}
+	selectedPages := []string{} // []string{"2-4"}
 
 	return api.RotateFile(inputPath, outputPath, rotationAngle, selectedPages, conf)
 }
@@ -78,6 +78,8 @@ func handlePDFRotation(c *gin.Context) {
 		return
 	}
 
-	// return the rotated PDF as a download
+	// return as download
 	c.FileAttachment(outputPath, "rotated_"+filepath.Base(filePath)[9:])
 }
+
+//TODO: Implement slice of pages to rotate
